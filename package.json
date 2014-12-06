@@ -15,7 +15,7 @@
         "url": "https://github.com/aquilae/node-qpath.git"
     },
     "main": "lib/qpath.js",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "devDependencies": {
         "mocha": "*"
     }
