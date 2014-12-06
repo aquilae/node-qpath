@@ -1,0 +1,9 @@
+{
+    "name": "qpath",
+    "description": "object-oriented file system and path API",
+    "main": "lib/qpath.js",
+    "version": "0.1.0",
+    "devDependencies": {
+        "mocha": "*"
+    }
+}
