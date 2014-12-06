@@ -1,6 +1,11 @@
 {
     "name": "qpath",
     "description": "object-oriented file system and path API",
+    "homepage": "https://github.com/aquilae/node-qpath",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aquilae/node-qpath.git"
+    },
     "main": "lib/qpath.js",
     "version": "0.1.0",
     "devDependencies": {
