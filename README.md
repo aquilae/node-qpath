@@ -12,12 +12,18 @@ qp.path // returns '/path/to/something'
 qp.basename // returns 'something' (equivalent to require('path').basename())
 qp.dirname // returns '/path/to' (equivalent to require('path').dirname())
 
-qp.stat(callback) // returns extended `Stats` object (equivalent to require('fs').stat())
+qp.exists([callback]) // equivalent to require('fs').exists()
+qp.existsSync() // synchronous version of `#exists()`
+
+qp.stat([callback]) // returns extended `Stats` object (equivalent to require('fs').stat())
 qp.statSync() // synchronous version of `#stat()`
 
-qp.readStats(callback) // returns list of extended `Stats` objects
+qp.readStats([callback]) // returns list of extended `Stats` objects
                        // for each file and directory under `path` (recursively)
 qp.readStatsSync() // synchronous version of `#readStats()`
+
+qp.mkdirp([mode], [callback]) // equivalent to unix `mkdir -p`
+qp.mkdirpSync([mode]) // synchronous version of `#mkdirp()`
 ```
 
 #### Extended Stats object

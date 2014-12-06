@@ -85,7 +85,7 @@
                         expectStats('dummy-directory.ignore/another-dummy-directory.ignore'),
                         expectStats('dummy-directory.ignore/another-dummy-directory.ignore/another-dummy-file.ignore')
                     ],
-                    actual = createDirPath().readStatsSync();
+                    actual = qp.readStatsSync();
                 assert(Array.isArray(actual), 'actual value is not an array');
                 assert.equal(actual.length, expected.length, 'list lengths differ');
                 actual.forEach(function (actual) {
@@ -99,6 +99,68 @@
                 });
             });
         });
+        describe('#mkdirp()', function () {
+            it('should create desired directory structure', function (done) {
+                createTempDirPath().mkdirp(function () {
+                    var failed = false;
+                    try {
+                        assertTempDir('temp');
+                        assertTempDir('temp/subtemp');
+                    }
+                    catch (exc) {
+                        failed = true;
+                    }
+                    finally {
+                        removeTempDir('temp/subtemp');
+                        removeTempDir('temp');
+                        if (!failed) done();
+                    }
+                });
+
+                function assertTempDir($path) {
+                    $path = path.join(__dirname, 'dummy-directory.ignore/another-dummy-directory.ignore', $path);
+                    assert(fs.existsSync($path), '`' + $path + '` does not exist');
+                    assert(fs.statSync($path).isDirectory(), '`' + $path + '` is not a directory');
+                }
+
+                function removeTempDir($path) {
+                    try {
+                        $path = path.join(__dirname, 'dummy-directory.ignore/another-dummy-directory.ignore', $path);
+                        fs.rmdirSync($path);
+                    }
+                    catch (exc) {
+                    }
+                }
+            })
+        });
+        describe('#mkdirpSync()', function () {
+            it('should create desired directory structure', function () {
+                try {
+                    createTempDirPath().mkdirpSync();
+                    assertTempDir('temp');
+                    assertTempDir('temp/subtemp');
+                }
+                finally {
+                    removeTempDir('temp/subtemp');
+                    removeTempDir('temp');
+                }
+
+                function assertTempDir($path) {
+                    $path = path.join(__dirname, 'dummy-directory.ignore/another-dummy-directory.ignore', $path);
+                    assert(fs.existsSync($path), '`' + $path + '` does not exist');
+                    assert(fs.statSync($path).isDirectory(), '`' + $path + '` is not a directory');
+                }
+
+                function removeTempDir($path) {
+                    try {
+                        $path = path.join(__dirname, 'dummy-directory.ignore/another-dummy-directory.ignore', $path);
+                        fs.rmdirSync($path);
+                    }
+                    catch (exc) {
+                    }
+                }
+            });
+        });
     });
 
     function createDirPath() {
@@ -107,6 +169,10 @@
 
     function createFilePath() {
         return qpath(path.join(__dirname, 'dummy-directory.ignore/dummy-file.ignore'));
+    }
+
+    function createTempDirPath() {
+        return qpath(path.join(__dirname, 'dummy-directory.ignore/another-dummy-directory.ignore/temp/subtemp'));
     }
 
     function assertStats(actual, expected, path) {
